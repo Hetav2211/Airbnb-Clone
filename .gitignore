@@ -1,6 +1,9 @@
 # Dependency directories
 node_modules/
 
+#databases 
+databaseUtil.js
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

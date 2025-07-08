@@ -1,0 +1,45 @@
+<header class="bg-red-500 text-white p-4 shadow-md flex-auto items-center">
+  <nav class="container mx-auto flex justify-items-center">
+    <ul class="flex space-x-4">
+      <li>
+        <img src="images/logo.svg" alt="Airbnb" class="mx-auto" />
+      </li>
+      <li>
+        <a
+          href="/homes"
+          class="<%= currentPage === 'Home' ? 'bg-blue-500' : 'hover:bg-red-400' %> hover:bg-red-400 pt-4 px-4 rounded transition duration-300"
+          >Homes-list</a
+        >
+      </li>
+      <li>
+        <a
+          href="/host/add-home"
+          class="<%= currentPage === 'addHome' ? 'bg-blue-500' : 'hover:bg-red-400' %>  pt-4 px-4 rounded transition duration-300"
+          >Add Home</a
+        >
+      </li>
+
+      <li>
+        <a
+          href="/host/host-home-list"
+          class="<%= currentPage === 'host-homes' ? 'bg-blue-500' : 'hover:bg-red-400' %>  pt-4 px-4 rounded transition duration-300"
+          >Host Home</a
+        >
+      </li>
+      <li>
+        <a
+          href="/favourites"
+          class="<%= currentPage === 'favourite-list' ? 'bg-blue-500' : 'hover:bg-red-400' %>  pt-4 px-4 rounded transition duration-300%>"
+          >Favourites</a
+        >
+      </li>
+      <li>
+        <a
+          href="/bookings"
+          class="<%= currentPage === 'bookings' ? 'bg-blue-500' : 'hover:bg-red-400' %> py-2 px-4 pt-4 rounded transition duration-300"
+          >Bookings</a
+        >
+      </li>
+    </ul>
+  </nav>
+</header>

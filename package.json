@@ -16,9 +16,11 @@
     "@tailwindcss/postcss": "^4.1.10",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "mongodb": "^6.17.0",
     "mysql2": "^3.14.1"
   },
   "devDependencies": {
+    "@types/node": "^24.0.14",
     "autoprefixer": "^10.4.21",
     "concurrently": "^9.2.0",
     "nodemon": "^3.1.10",

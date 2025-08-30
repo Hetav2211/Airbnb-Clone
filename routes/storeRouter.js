@@ -12,7 +12,8 @@ storeRouter.get("/homes", storeController.getHomes);
 
 storeRouter.get("/bookings", storeController.getBookings);
 
-storeRouter.get("/index", storeController.getIndex);
+storeRouter.get("/favourites", storeController.getFavouriteList);
+
 
 storeRouter.get("/homes/:homeId", storeController.getHomeDetails);
 

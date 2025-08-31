@@ -1,45 +1,139 @@
-<header class="bg-red-500 text-white p-4 shadow-md flex-auto items-center">
-  <nav class="container mx-auto flex justify-items-center">
-    <ul class="flex space-x-4">
-      <li>
-        <img src="images/logo.svg" alt="Airbnb" class="mx-auto" />
-      </li>
+<header class="bg-red-500 text-white shadow-md">
+  <nav
+    class="container mx-auto flex flex-wrap items-center justify-between py-3"
+  >
+    <div class="flex items-center space-x-4">
+      <a href="/">
+        <img src="images/logo.svg" alt="Airbnb" class="h-10 w-auto" />
+      </a>
+      <ul class="hidden md:flex space-x-2 lg:space-x-4 font-medium">
+      <% if (isLoggedIn) { %>
+        <li>
+          <a
+            href="/homes"
+            class="<%= currentPage === 'Home' ? 'bg-blue-500' : 'hover:bg-red-400' %> hover:bg-red-400 py-2 px-4 rounded transition duration-300"
+            >Homes-list</a
+          >
+        </li>
+        <li>
+          <a
+            href="/host/add-home"
+            class="<%= currentPage === 'addHome' ? 'bg-blue-500' : 'hover:bg-red-400' %> py-2 px-4 rounded transition duration-300"
+            >Add Home</a
+          >
+        </li>
+        <li>
+          <a
+            href="/host/host-home-list"
+            class="<%= currentPage === 'host-homes' ? 'bg-blue-500' : 'hover:bg-red-400' %> py-2 px-4 rounded transition duration-300"
+            >Host Home</a
+          >
+        </li>
+        <li>
+          <a
+            href="/favourites"
+            class="<%= currentPage === 'favourite-list' ? 'bg-blue-500' : 'hover:bg-red-400' %> py-2 px-4 rounded transition duration-300"
+            >Favourites</a
+          >
+        </li>
+        <li>
+          <a
+            href="/bookings"
+            class="<%= currentPage === 'bookings' ? 'bg-blue-500' : 'hover:bg-red-400' %> py-2 px-4 rounded transition duration-300"
+            >Bookings</a
+          >
+        </li>
+      <% } %>
+      </ul>
+    </div>
+    <div class="flex items-center space-x-2">
+      <% if (isLoggedIn) { %>
+        <form action="/logout" method="POST">
+          <button type="submit" class="bg-gray-800 hover:bg-gray-900 py-2 px-6 rounded transition duration-300 text-white font-semibold shadow-md">Logout</button>
+        </form>
+      <% } else { %>
+        <a
+          href="/login"
+          class="bg-green-500 hover:bg-green-600 py-2 px-6 rounded transition duration-300 text-white font-semibold shadow-md"
+        >Login</a>
+      <% } %>
+    </div>
+      >
+      <button class="md:hidden ml-2 focus:outline-none" id="nav-toggle">
+        <svg
+          class="w-7 h-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+        </svg>
+      </button>
+    </div>
+    <ul
+      class="md:hidden w-full mt-4 space-y-2 font-medium hidden"
+      id="nav-menu"
+    >
       <li>
         <a
           href="/homes"
-          class="<%= currentPage === 'Home' ? 'bg-blue-500' : 'hover:bg-red-400' %> hover:bg-red-400 pt-4 px-4 rounded transition duration-300"
+          class="block py-2 px-4 rounded hover:bg-red-400 transition duration-300"
           >Homes-list</a
         >
       </li>
       <li>
         <a
           href="/host/add-home"
-          class="<%= currentPage === 'addHome' ? 'bg-blue-500' : 'hover:bg-red-400' %>  pt-4 px-4 rounded transition duration-300"
+          class="block py-2 px-4 rounded hover:bg-red-400 transition duration-300"
           >Add Home</a
         >
       </li>
-
       <li>
         <a
           href="/host/host-home-list"
-          class="<%= currentPage === 'host-homes' ? 'bg-blue-500' : 'hover:bg-red-400' %>  pt-4 px-4 rounded transition duration-300"
+          class="block py-2 px-4 rounded hover:bg-red-400 transition duration-300"
           >Host Home</a
         >
       </li>
       <li>
         <a
           href="/favourites"
-          class="<%= currentPage === 'favourite-list' ? 'bg-blue-500' : 'hover:bg-red-400' %>  pt-4 px-4 rounded transition duration-300%>"
+          class="block py-2 px-4 rounded hover:bg-red-400 transition duration-300"
           >Favourites</a
         >
       </li>
       <li>
         <a
           href="/bookings"
-          class="<%= currentPage === 'bookings' ? 'bg-blue-500' : 'hover:bg-red-400' %> py-2 px-4 pt-4 rounded transition duration-300"
+          class="block py-2 px-4 rounded hover:bg-red-400 transition duration-300"
           >Bookings</a
         >
       </li>
+      <li>
+        <% if (isLoggedIn) { %>
+          <form action="/logout" method="POST">
+            <button type="submit" class="block w-full py-2 px-4 rounded bg-gray-800 hover:bg-gray-900 text-white font-semibold transition duration-300">Logout</button>
+          </form>
+        <% } else { %>
+          <a
+            href="/login"
+            class="block py-2 px-4 rounded bg-green-500 hover:bg-green-600 text-white font-semibold transition duration-300"
+          >Login</a>
+        <% } %>
+      </li>
     </ul>
   </nav>
+  <script>
+    const navToggle = document.getElementById("nav-toggle");
+    const navMenu = document.getElementById("nav-menu");
+    navToggle.addEventListener("click", () => {
+      navMenu.classList.toggle("hidden");
+    });
+  </script>
 </header>

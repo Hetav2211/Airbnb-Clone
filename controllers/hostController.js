@@ -28,7 +28,7 @@ exports.getEditHome = (req, res, next) => {
 };
 
 exports.getHostHomes = (req, res, next) => {
-  Home.fetchAll().then((registeredHomes) => {
+  Home.find().then((registeredHomes) => {
     res.render("host/host-home-list", {
       registeredHomes: registeredHomes,
       pageTitle: "Host Homes List",
@@ -39,7 +39,14 @@ exports.getHostHomes = (req, res, next) => {
 
 exports.postAddHome = (req, res, next) => {
   const { housename, price, location, rating, photo, description } = req.body;
-  const home = new Home(housename, price, location, rating, photo, description);
+  const home = new Home({
+    housename,
+    price,
+    location,
+    rating,
+    photo,
+    description,
+  });
   home.save().then(() => {
     console.log("Home saved successfully");
   });
@@ -47,26 +54,32 @@ exports.postAddHome = (req, res, next) => {
 };
 
 exports.postEditHome = (req, res, next) => {
-  const { housename, price, location, rating, photo, description,id } =
+  const { housename, price, location, rating, photo, description, id } =
     req.body;
-  const home = new Home(
-    housename,
-    price,
-    location,
-    rating,
-    photo,
-    description,
-    id
-  );
-  home.save().then(result => {
-    console.log(result);
+  Home.findById(id).then((home) => {
+    home.housename = housename;
+    home.price = price;
+    home.location = location;
+    home.rating = rating;
+    home.photo = photo;
+    home.description = description;
+    home
+      .save()
+      .then((result) => {
+        console.log("Home updated:", result);
+      })
+      .catch((error) => {
+        console.log("Error while updating home:", error);
+      });
+    res.redirect("/host/host-home-list");
+  }).catch((error) => {
+    console.log("Error while fetching home:", error);
   });
-  res.redirect("/host/host-home-list");
 };
 
 exports.postDeleteHome = (req, res, next) => {
   const homeId = req.params.homeId;
-  Home.deleteById(homeId)
+  Home.findByIdAndDelete(homeId)
     .then(() => {
       res.redirect("/host/host-home-list");
     })

@@ -1,6 +1,6 @@
 //core module
 const path = require("path");
-
+require("dotenv").config();
 //External module
 const express = require("express");
 //local module
@@ -26,14 +26,13 @@ app.use(express.static(path.join(rootDir, "public")));
 app.use(errorController.errorHandler);
 
 const PORT = 3000;
-const DB_PATH =
-  "mongodb+srv://root:slash@hpcluster.pyepdrb.mongodb.net/airbnb?retryWrites=true&w=majority&appName=HPcluster";
+const DB_PATH = process.env.MONGODB_URI;
 
 mongoose
   .connect(DB_PATH)
   .then(() => {
     console.log("connected to Mongo");
-    
+
     app.listen(PORT, () => {
       console.log(`server is running at port http://localhost:${PORT}`);
     });

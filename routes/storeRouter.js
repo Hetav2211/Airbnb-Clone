@@ -19,7 +19,7 @@ storeRouter.get("/homes/:homeId", storeController.getHomeDetails);
 
 storeRouter.post("/favourites", storeController.postAddFavouriteList);
 
-storeRouter.post("/favourites/delete/:homeId", storeController.postDeleteFavourite);
+storeRouter.post("/favourites/delete/:homeId", storeController.postRemoveFromFavourite);
 
 storeRouter.get("favourites/homes/:homeId",storeController.getHomeDetails);
 

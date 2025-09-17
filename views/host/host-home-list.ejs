@@ -1,35 +1,147 @@
 <%- include('../partial/head') %>
   </head>
-  <body>
+  <body class="bg-gray-50">
     <%- include('../partial/nav') %>
-    <main class="container mx-auto bg-white shadow-lg rounded-lg p-8 mt-10 max-w-6xl">
-      <h2 class="text-3xl text-red-500 font-bold text-center mb-6">
-        Hey Host! Here are your homes:
-      </h2>
-      <div class="flex flex-wrap justify-center gap-6">
-        <% registeredHomes.forEach(home => { %>
-          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 w-full max-w-sm">
-            <img src="<%= home.photo %>" alt="<%= home.housename %>" class="w-full h-48 object-cover">
-            <div class="p-4">
-              <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= home.housename %></h3>
-              <p class="text-gray-600 mb-2"><i class="fas fa-map-marker-alt mr-2"></i><%= home.location %></p>
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-lg font-bold text-red-500">Rs<%= home.price %> / night</span>
-                <div class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-yellow-400 mr-1">
-                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="text-gray-700"><%= home.rating %></span>
-                </div>
+    
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-red-500 to-red-600 text-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Your Properties</h1>
+          <p class="text-lg opacity-90">Manage and monitor your listings</p>
+        </div>
+      </div>
+    </div>
+
+    <main class="container mx-auto px-4 py-12 -mt-8">
+      <% if (registeredHomes.length === 0) { %>
+        <!-- Empty State -->
+        <div class="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-12 text-center">
+          <div class="w-24 h-24 bg-red-50 rounded-full mx-auto mb-6 flex items-center justify-center">
+            <svg class="w-12 h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-semibold text-gray-900 mb-2">No properties listed yet</h2>
+          <p class="text-gray-500 mb-8">Start by adding your first property</p>
+          <a href="/host/add-home" class="inline-flex items-center px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300">
+            Add Your First Property
+          </a>
+        </div>
+      <% } else { %>
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <div class="flex items-center">
+              <div class="p-3 bg-blue-50 rounded-lg">
+                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
               </div>
-              <a href="/host/edit-home/<%=home._id%>?editing=true" class="bg-blue-500 p-2">Edit</a>
-              <form action="/host/delete-home/<%= home._id %>" method="POST">
-                <button type="submit" class="bg-red-500 p-2">Delete</button>
-              </form>
+              <div class="ml-4">
+                <p class="text-sm text-gray-500">Total Properties</p>
+                <p class="text-2xl font-semibold text-gray-900"><%= registeredHomes.length %></p>
+              </div>
             </div>
           </div>
-        <% }) %>
-      </div>
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <div class="flex items-center">
+              <div class="p-3 bg-green-50 rounded-lg">
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm text-gray-500">Active Listings</p>
+                <p class="text-2xl font-semibold text-gray-900"><%= registeredHomes.length %></p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <div class="flex items-center">
+              <div class="p-3 bg-yellow-50 rounded-lg">
+                <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm text-gray-500">Average Rating</p>
+                <p class="text-2xl font-semibold text-gray-900">
+                  <%= (registeredHomes.reduce((sum, home) => sum + parseFloat(home.rating), 0) / registeredHomes.length).toFixed(1) %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add New Property Button -->
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900">Your Listings</h2>
+          <a href="/host/add-home" 
+             class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add New Property
+          </a>
+        </div>
+
+        <!-- Property Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <% registeredHomes.forEach(home => { %>
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <div class="relative">
+                <img 
+                  src="<%= home.photo %>" 
+                  alt="<%= home.housename %>" 
+                  class="w-full h-48 object-cover"
+                >
+                <div class="absolute top-4 right-4 flex space-x-2">
+                  <a href="/host/edit-home/<%=home._id%>?editing=true" 
+                     class="p-2 bg-white rounded-lg shadow-sm hover:bg-gray-50 transition-colors duration-300">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </a>
+                  <form action="/host/delete-home/<%= home._id %>" method="POST" class="inline">
+                    <button type="submit" 
+                            class="p-2 bg-white rounded-lg shadow-sm hover:bg-red-50 hover:text-red-500 transition-colors duration-300"
+                            onclick="return confirm('Are you sure you want to delete this property?')">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+              </div>
+              
+              <div class="p-6">
+                <div class="mb-4">
+                  <h3 class="text-xl font-semibold text-gray-900 mb-2"><%= home.housename %></h3>
+                  <p class="text-gray-600 flex items-center">
+                    <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <%= home.location %>
+                  </p>
+                </div>
+                
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div class="text-2xl font-bold text-gray-900">
+                    $<%= home.price %> <span class="text-sm font-normal text-gray-500">/ night</span>
+                  </div>
+                  <div class="flex items-center bg-yellow-50 px-3 py-1 rounded-full">
+                    <span class="text-yellow-500 text-lg mr-1">★</span>
+                    <span class="font-semibold text-gray-700"><%= home.rating %></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
     </main>
   </body>
 </html>

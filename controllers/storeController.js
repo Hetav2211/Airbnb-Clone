@@ -1,5 +1,5 @@
-const Favourite = require("../models/favourite");
 const Home = require("../models/home");
+const User = require("../models/user");
 
 exports.getHomes = (req, res, next) => {
   Home.find().then((registeredHomes) => {
@@ -8,6 +8,7 @@ exports.getHomes = (req, res, next) => {
       pageTitle: "Home List",
       currentPage: "Home",
       isLoggedIn: req.isLoggedIn,
+      user: req.session.user,
     });
   });
 };
@@ -21,6 +22,7 @@ exports.getIndex = (req, res, next) => {
       pageTitle: "airbnb Home",
       currentPage: "index",
       isLoggedIn: req.isLoggedIn,
+      user: req.session.user,
     });
   });
 };
@@ -30,53 +32,67 @@ exports.getBookings = (req, res, next) => {
     pageTitle: "My Bookings",
     currentPage: "bookings",
     isLoggedIn: req.isLoggedIn,
+    user: req.session.user,
   });
 };
 
-exports.getFavouriteList = (req, res, next) => {
-  Favourite.find().populate("houseId").then((favourites) => {
-    const favouriteHomes = favourites.map((fav) => fav.houseId.toString());
-    res.render("store/favourite-list", {
-      favouriteHomes: favouriteHomes,
-      pageTitle: "Favourites",
-      currentPage: "favourite-list",
-      isLoggedIn: req.isLoggedIn,
-    });
+exports.getFavouriteList = async (req, res, next) => {
+  const userId = req.session.user._id;
+  const user = await User.findById(userId).populate("favourites");
+  res.render("store/favourite-list", {
+    favouriteHomes: user.favourites,
+    pageTitle: "Favourites",
+    currentPage: "favourite-list",
+    isLoggedIn: req.isLoggedIn,
+    user: req.session.user,
   });
 };
 
-exports.postAddFavouriteList = (req, res, next) => {
-  const homeId = req.body.id;
-  Favourite.findOne({ houseId: homeId })
-    .then((fav) => {
-      if (fav) {
-        console.log("already marked as favourite");
-        return res.redirect("/favourites");
-      } else {
-        fav = new Favourite({ houseId: homeId });
-        fav.save().then((result) => {
-          console.log("fav added", result);
-        });
-      }
-      res.redirect("/favourites");
-    })
-    .catch((err) => {
-      console.log("Error while making favourites", err);
-    });
+exports.postAddFavouriteList = async (req, res, next) => {
+  try {
+    const homeId = req.body.id;
+    const userId = req.session.user._id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.redirect("/login");
+    }
+
+    if (user.favourites.includes(homeId)) {
+      console.log("already marked as favourite");
+      return res.redirect("/favourites");
+    } else {
+      user.favourites.push(homeId);
+      await user.save();
+      console.log("fav added", homeId);
+    }
+    res.redirect("/favourites");
+  } catch (error) {
+    console.log("Error adding to favourites:", error);
+    res.redirect("/favourites");
+  }
 };
 
-exports.postDeleteFavourite = (req, res, next) => {
-  const homeId = req.params.homeId;
-  Favourite.findOneAndDelete({ houseId: homeId })
-    .then((result) => {
-      console.log("Fav removed:", result);
-    })
-    .catch((err) => {
-      console.log("Error while removing favourite", err);
-    })
-    .finally(() => {
-      res.redirect("/favourites");
-    });
+exports.postRemoveFromFavourite = async (req, res, next) => {
+  try {
+    const homeId = req.params.homeId;
+    const userId = req.session.user._id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.redirect("/login");
+    }
+
+    user.favourites = user.favourites.filter(
+      (favId) => favId.toString() !== homeId
+    );
+    await user.save();
+    console.log("Favourite removed:", homeId);
+    res.redirect("/favourites");
+  } catch (error) {
+    console.log("Error while removing favourite:", error);
+    res.redirect("/favourites");
+  }
 };
 
 exports.getHomeDetails = (req, res, next) => {
@@ -91,7 +107,8 @@ exports.getHomeDetails = (req, res, next) => {
         pageTitle: "Home Detail",
         currentPage: "Home",
         isLoggedIn: req.isLoggedIn,
+        user: req.session.user,
       });
-    }
+    } 
   });
 };

@@ -1,45 +1,95 @@
 <%- include('../partial/head') %>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   </head>
-  <body>
+  <body class="bg-gray-50">
       <%- include('../partial/nav') %>
-      <main class="container mx-auto bg-white shadow-lg rounded-lg p-8 mt-10 max-w-6xl">
-          <h2 class="text-3xl text-red-500 font-bold text-center mb-6">
-              Details of <%= home.housename %>
-          </h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div class="rounded-lg overflow-hidden">
-                  <img src="<%= home.photo %>" alt="<%= home.housename %>" class="w-full h-96 object-cover">
-              </div>
-              
-              <div class="space-y-6">
-                  <div class="border-b pb-4">
-                      <h3 class="text-2xl font-semibold mb-2">Description</h3>
-                      <p class="text-gray-600"><%= home.description %></p>
-                  </div>
-
-                  <div class="border-b pb-4">
-                      <h3 class="text-2xl font-semibold mb-2">Location</h3>
-                      <p class="text-gray-600"><%= home.location %></p>
-                  </div>
-                  
-                  <div class="border-b pb-4">
-                      <h3 class="text-2xl font-semibold mb-2">Price</h3>
-                      <p class="text-green-600 text-xl font-bold">$<%= home.price %> / night</p>
-                  </div>
-                  
-                  <div class="border-b pb-4">
-                      <h3 class="text-2xl font-semibold mb-2">Rating</h3>
+      
+      <!-- Hero Image Section -->
+      <div class="relative h-[60vh] bg-black">
+          <img src="<%= home.photo %>" alt="<%= home.housename %>" class="w-full h-full object-cover opacity-90">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <div class="container mx-auto">
+                  <h1 class="text-4xl md:text-5xl font-bold mb-4"><%= home.housename %></h1>
+                  <div class="flex items-center gap-6 text-lg">
                       <div class="flex items-center">
-                          <span class="text-yellow-400 text-xl">★</span>
-                          <span class="ml-2 text-lg"><%= home.rating %> / 5</span>
+                          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          <%= home.location %>
+                      </div>
+                      <div class="flex items-center">
+                          <span class="text-yellow-400 text-xl mr-1">★</span>
+                          <span><%= home.rating %></span>
+                          <span class="ml-1 text-gray-300">/ 5</span>
                       </div>
                   </div>
-                  <div class="mt-2">
-                    <%- include('../partial/favourite') %>
+              </div>
+          </div>
+      </div>
+
+      <main class="container mx-auto px-4 py-12">
+          <div class="max-w-6xl mx-auto">
+              <!-- Quick Info Bar -->
+              <div class="bg-white rounded-xl shadow-lg p-6 -mt-20 relative z-10 mb-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div class="flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-200 pb-4 md:pb-0">
+                      <div class="text-center">
+                          <p class="text-gray-500 text-sm mb-1">Price</p>
+                          <p class="text-3xl font-bold text-red-500">$<%= home.price %></p>
+                          <p class="text-gray-500 text-sm">per night</p>
+                      </div>
+                  </div>
+                  <div class="flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-200 pb-4 md:pb-0">
+                      <div class="text-center">
+                          <p class="text-gray-500 text-sm mb-1">Rating</p>
+                          <div class="flex items-center justify-center text-2xl font-bold text-yellow-500">
+                              ★ <%= home.rating %>
+                          </div>
+                          <p class="text-gray-500 text-sm">from guests</p>
+                      </div>
+                  </div>
+                  <div class="flex items-center justify-center">
+                      <button class="bg-gradient-to-r from-red-500 to-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          Book Now
+                      </button>
+                  </div>
+              </div>
+
+              <!-- Main Content -->
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                  <!-- Left Column -->
+                  <div class="lg:col-span-2 space-y-8">
+                      <div class="bg-white rounded-xl shadow-md p-8">
+                          <h2 class="text-2xl font-semibold mb-6">About this place</h2>
+                          <p class="text-gray-600 leading-relaxed"><%= home.description %></p>
+                      </div>
+
+                      <div class="bg-white rounded-xl shadow-md p-8">
+                          <h2 class="text-2xl font-semibold mb-6">Location Details</h2>
+                          <p class="mt-4 text-gray-600"><%= home.location %></p>
+                      </div>
+                  </div>
+
+                  <!-- Right Column -->
+                 
+
+                          <!-- Favorite Button -->
+                          <div class="bg-white rounded-xl shadow-md p-6 text-center">
+                              <div class="mb-2">
+                                <%- include('../partial/favourite') %>
+                              </div>
+                              <p class="text-sm text-gray-500">Save to your wishlist</p>
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
       </main>
+
+      <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   </body>
 </html>

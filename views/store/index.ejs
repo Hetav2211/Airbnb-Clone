@@ -1,51 +1,83 @@
 <%-include('../partial/head') %>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   </head>
 
-  <body>
+  <body class="bg-gray-50">
     <%-include('../partial/nav') %>
-    <main
-      class="container mx-auto bg-white shadow-lg rounded-lg p-8 mt-10 max-w-xl"
-    >
-      <h2 class="text-5xl text-gray-800 font-bold text-center mb-10">
-        Welcome to Airbnb page
-      </h2>
-      <div class="grid grid-cols-1 gap-8">
+    
+    <!-- Hero Section -->
+    <div class="relative bg-gradient-to-r from-red-500 to-red-600 text-white py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-6xl font-bold mb-6">Find Your Perfect Stay</h1>
+          <p class="text-lg md:text-xl mb-8 opacity-90">Discover unique places to stay around the world</p>
+          
+      
+      <!-- Wave Shape Divider -->
+      <div class="absolute bottom-0 left-0 right-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full h-16 md:h-24">
+          <path fill="#f9fafb" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <main class="container mx-auto px-4 py-12">
+
+      <!-- Listings Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <% registeredHomes.forEach(home => { %>
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row hover:scale-105 transition-transform duration-300">
-          <img
-        src="<%= home.photo %>"
-        alt="<%= home.housename %>"
-        class="w-full md:w-64 h-56 object-cover"
-          />
-          <div class="p-6 flex flex-col justify-between flex-1">
-        <div>
-          <h3 class="text-2xl font-semibold text-gray-900 mb-2">
-            <%= home.housename %>
-          </h3>
-          <p class="text-gray-500 mb-1">
-            <span class="font-medium text-gray-700">Location:</span>
-            <%= home.location %>
-          </p>
-          <p class="text-gray-500 mb-1">
-            <span class="font-medium text-gray-700">Price:</span>
-            $<%= home.price %> / night
-          </p>
-          <div class="flex items-center mt-2">
-            <span class="text-yellow-400 text-xl mr-1">★</span>
-            <span class="text-gray-700 font-medium"><%= home.rating %></span>
-            <span class="ml-2 text-sm text-gray-400">/ 5</span>
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+          <div class="relative">
+            <img
+              src="<%= home.photo %>"
+              alt="<%= home.housename %>"
+              class="w-full h-64 object-cover"
+            />
           </div>
-        </div>
-        <button class="mt-6 bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-blue-700 transition">
-          Book Now
-        </button>
+          
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                  <%= home.housename %>
+                </h3>
+                <p class="text-gray-600 flex items-center">
+                  <svg class="w-5 h-5 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <%= home.location %>
+                </p>
+              </div>
+              <div class="flex items-center bg-yellow-100 px-3 py-1 rounded-full">
+                <span class="text-yellow-500 text-lg mr-1">★</span>
+                <span class="font-semibold text-gray-700"><%= home.rating %></span>
+              </div>
+            </div>
+            
+            <div class="border-t border-gray-100 pt-4">
+              <div class="flex justify-between items-center">
+                <div>
+                  <span class="text-2xl font-bold text-gray-900">$<%= home.price %></span>
+                  <span class="text-gray-500 text-sm">/ night</span>
+                </div>
+                <button class="px-6 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transform hover:-translate-y-0.5 transition-all duration-300">
+                  Book Now
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <% }) %>
       </div>
-        </li>
-    
-      </ul>
+
+
+      
     </main>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      // Initialize any interactive components here
+    </script>
   </body> 
 </html>
